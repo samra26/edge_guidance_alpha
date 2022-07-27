@@ -131,7 +131,7 @@ class Solver(object):
                 
                 sal_edge_rgbd,alpha = self.net(sal_image,sal_depth)
                 
-                
+                print('alpha',alpha)
                 edge_loss_rgbd=F.smooth_l1_loss(sal_edge_rgbd,sal_edge)
                 
                 sal_loss_fuse = 255*edge_loss_rgbd
