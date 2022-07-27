@@ -93,7 +93,7 @@ class Solver(object):
 
                 #input = torch.cat((images, depth), dim=0)
                 preds,alpha = self.net(images,depth)
-                #print(preds.shape)
+                print(alpha)
                 preds = F.interpolate(preds, tuple(im_size), mode='bilinear', align_corners=True)
                 pred = np.squeeze(torch.sigmoid(preds)).cpu().data.numpy()
 
@@ -142,8 +142,8 @@ class Solver(object):
                 self.optimizer.step()
 
                 if (i + 1) % (self.show_every // self.config.batch_size) == 0:
-                    print('epoch: [%2d/%2d], iter: [%5d/%5d]  ||   edge_loss:%0.4f' % (
-                        epoch, self.config.epoch, i + 1, iter_num,edge_loss_rgbd ))
+                    print('epoch: [%2d/%2d], iter: [%5d/%5d]  ||   edge_loss:%0.4f|| alpha: %0.4f' % (
+                        epoch, self.config.epoch, i + 1, iter_num,edge_loss_rgbd ,alpha))
                     # print('Learning rate: ' + str(self.lr))
                     writer.add_scalar('training loss', r_sal_loss / (self.show_every / self.iter_size),
                                       epoch * len(self.train_loader.dataset) + i)
