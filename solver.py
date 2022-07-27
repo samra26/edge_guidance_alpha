@@ -131,7 +131,7 @@ class Solver(object):
                 
                 sal_edge_rgbd,alpha = self.net(sal_image,sal_depth)
                 
-                print('alpha',alpha)
+                #print('alpha',alpha)
                 edge_loss_rgbd=F.smooth_l1_loss(sal_edge_rgbd,sal_edge)
                 
                 sal_loss_fuse = 255*edge_loss_rgbd
@@ -143,7 +143,7 @@ class Solver(object):
 
                 if (i + 1) % (self.show_every // self.config.batch_size) == 0:
                     print('epoch: [%2d/%2d], iter: [%5d/%5d]  ||   edge_loss:%0.4f|| alpha: %0.4f' % (
-                        epoch, self.config.epoch, i + 1, iter_num,edge_loss_rgbd ,alpha))
+                        epoch, self.config.epoch, i + 1, iter_num,edge_loss_rgbd ,torch.mean(alpha)))
                     # print('Learning rate: ' + str(self.lr))
                     writer.add_scalar('training loss', r_sal_loss / (self.show_every / self.iter_size),
                                       epoch * len(self.train_loader.dataset) + i)
